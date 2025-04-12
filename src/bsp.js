@@ -247,6 +247,12 @@ export class BSPTree {
          */
         const dividers = [];
 
+        // Push sides
+        dividers.push(['vertical'      , 0                   , this.root.rectangle]);
+        dividers.push(['vertical'      , this.width          , this.root.rectangle]);
+        dividers.push(['horizontal'    , 0                   , this.root.rectangle]);
+        dividers.push(['horizontal'    , this.height         , this.root.rectangle]);
+
         const collectDividers = (node, level) => {
             if (!node.isLeaf() && node.dividerType && node.dividerPosition) {
                 const rect = node.rectangle;
@@ -260,7 +266,13 @@ export class BSPTree {
 
     describe() {
 
-        this.joints = {}
+        this.joints = {};
+        this.joints[`{ x: 0, y: 0 }`] = 'L';
+        this.joints[`{ x: 0, y: ${this.height} }`] = 'L';
+        this.joints[`{ x: ${this.width}, y: 0 }`] = 'L';
+        this.joints[`{ x: ${this.width}, y: ${this.height} }`] = 'L';
+
+
         /**
          * Describe the tree structure.
          */
@@ -276,7 +288,7 @@ export class BSPTree {
         // }
 
         console.log("Dividers:");
-        for (const [divType, pos, rect] of this.getAllDividers()) {
+        for (const [divType, pos, rect] of this.getAllDividers().slice(4)) {
             let startingPoint;
             let endingPoint;
 
@@ -303,9 +315,20 @@ export class BSPTree {
 
         // console.log(this.joints)
 
-        const keys = Object.keys(this.joints);
-        for (const key of keys) {
-            console.log(`${key}: ${this.joints[key]}`);
+        let jointCount = {
+            'L': 0,
+            'T': 0,
+            '+': 0
+        }
+
+        for (const key of Object.keys(this.joints)) {
+            jointCount[this.joints[key]]++;
+            // console.log(`${key}: ${this.joints[key]}`);
+        }
+
+        console.log("Connectors needed: ")
+        for (const key of Object.keys(jointCount)) {
+            console.log(`  ${key}: ${jointCount[key]}`);
         }
     }
 

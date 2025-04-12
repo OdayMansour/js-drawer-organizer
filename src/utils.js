@@ -1,8 +1,7 @@
 export class Utils {
     static generateColorFromId(id) {
         // Simple hash function to generate colors
-        const hue = (id*10) % 360;
-        console.log(hue)
+        // const hue = (id*10) % 360;
         return {
             hue: 196,
             saturation: 0.6,
