@@ -4,6 +4,7 @@ import { InteractionHandler } from './interactionHandler.js';
 import { UIManager } from './uiManager.js';
 import { BSPRenderer } from './bspRenderer.js';
 
+document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 
 // Initialize Paper.js
 paper.install(window);
@@ -24,10 +25,10 @@ window.onload = async function() {
 
     // Initialize interaction handlers
     const interactionHandler = new InteractionHandler(bspTree);
-    
+
     // Initialize renderer
     const renderer = new BSPRenderer();
-    
+
     // Initialize UI manager
     const uiManager = new UIManager();
 
@@ -66,6 +67,6 @@ function initializeExampleTree(bsp, renderer) {
     if (rightNode) {
         bsp.splitCompartment(rightNode, 'horizontal', 200);
     }
-    
+
     renderer.renderBSPTree(bsp);
 }

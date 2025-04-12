@@ -13,13 +13,13 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
-        
+
         #canvas {
             width: 100%;
             height: 100vh;
             display: block;
         }
-        
+
         #info-panel {
             position: absolute;
             top: 10px;
@@ -31,7 +31,7 @@
             max-width: 300px;
             display: none;
         }
-        
+
         #controls {
             position: absolute;
             top: 10px;
@@ -41,7 +41,7 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        
+
         button {
             margin: 5px;
             padding: 5px 10px;
@@ -51,28 +51,21 @@
 </head>
 <body>
     <canvas id="canvas" resize></canvas>
-    
+
     <div id="info-panel">
         <h3>BSP Tree Information</h3>
         <div id="info-content">Click on a compartment to see details</div>
     </div>
-    
+
     <div id="controls">
         <div>
-            <button id="change-orientation">Change orientation (z)</button>
+            <button id="change-orientation">Change orientation (Right-click)</button>
             <button id="reset">Reset Tree (r)</button>
             <button id="undo">Undo (u)</button>
             <button id="describe">Describe (d)</button>
         </div>
     </div>
-    
-    <!-- <script src="bsp.js"></script>
-    <script src="utils.js"></script>
-    <script src="uiManager.js"></script>
-    <script src="bspRenderer.js"></script>
-    <script src="interactionHandler.js"></script>
-    <script src="canvasSetup.js"></script>
-    <script src="main.js"></script> -->
+
     <script type="module" src="src/main.js"></script>
 </body>
 </html>

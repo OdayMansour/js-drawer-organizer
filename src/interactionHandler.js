@@ -10,7 +10,7 @@ export class InteractionHandler {
         this.snapGrid = 5; // Snap to grid of 3.3 pixels
         this.uiManager = new UIManager();
         this.renderer = new BSPRenderer();
-        
+
         this.initializeTools();
         this.setupKeyboardEvents();
     }
@@ -21,7 +21,11 @@ export class InteractionHandler {
 
         // Handle mouse down (selection)
         tool.onMouseDown = function(event) {
-            self.handleMouseDown(event);
+            if (event.event.button == 0) {
+                self.handleLeftClick(event);
+            } else {
+                self.handleRightClick(event);
+            }
         };
 
         // Handle mouse move (guide line)
@@ -37,14 +41,14 @@ export class InteractionHandler {
         });
     }
 
-    handleMouseDown(event) {
+    handleLeftClick(event) {
         // Snap mouse position to grid
         const snappedX = Math.round(event.point.x / this.snapGrid) * this.snapGrid;
         const snappedY = Math.round(event.point.y / this.snapGrid) * this.snapGrid;
 
         // Find the node at the clicked position
         const node = this.bspTree.findNodeByPosition(snappedX, snappedY);
-        
+
         // Select new node
         this.selectedNode = node;
         if (node) {
@@ -72,11 +76,16 @@ export class InteractionHandler {
         }
     }
 
+    handleRightClick(event) {
+        this.toggleOrientation();
+        this.handleMouseMove(event);
+    }
+
     handleMouseMove(event) {
         // Snap mouse position to grid
         const snappedX = Math.round(event.point.x / this.snapGrid) * this.snapGrid;
         const snappedY = Math.round(event.point.y / this.snapGrid) * this.snapGrid;
-        
+
         // Get the node we're over, using the snapped position
         const node = this.bspTree.findNodeByPosition(snappedX, snappedY);
 
@@ -112,7 +121,6 @@ export class InteractionHandler {
 
     toggleOrientation() {
         this.guideOrientation = this.guideOrientation === "vertical" ? "horizontal" : "vertical";
-        // this.handleMouseMove()
     }
 
     resetTree() {

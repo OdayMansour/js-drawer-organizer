@@ -36,7 +36,7 @@ export class CanvasSetup {
             document.getElementById('dimension-submit').addEventListener('click', () => {
                 const width = parseInt(document.getElementById('canvas-width').value) || this.defaultWidth;
                 const height = parseInt(document.getElementById('canvas-height').value) || this.defaultHeight;
-                
+
                 document.body.removeChild(container);
                 resolve({ width, height });
             });

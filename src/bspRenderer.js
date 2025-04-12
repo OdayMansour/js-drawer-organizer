@@ -44,7 +44,7 @@ export class BSPRenderer {
                 fontSize: 10,
                 fontWeight: 'normal'
             });
-            
+
         } catch (error) {
             console.error("Error creating guideline:", error);
         }
@@ -168,7 +168,8 @@ export class BSPRenderer {
             try {
                 this.topDistanceLine = new Path({
                     strokeColor: 'grey',
-                    strokeWidth: 1
+                    strokeWidth: 1,
+                    dashArray: [2, 4]
                 });
             } catch (error) {
                 return;
@@ -180,7 +181,8 @@ export class BSPRenderer {
             try {
                 this.bottomDistanceLine = new Path({
                     strokeColor: 'grey',
-                    strokeWidth: 1
+                    strokeWidth: 1,
+                    dashArray: [2, 4]
                 });
             } catch (error) {
                 return;
@@ -320,7 +322,7 @@ export class BSPRenderer {
             // console.log(this.topDistanceText);
             this.bottomDistanceText.bringToFront();
             // console.log(this.bottomDistanceText);
-            
+
         } catch (error) {
             console.error("Error updating guideline:", error);
         }

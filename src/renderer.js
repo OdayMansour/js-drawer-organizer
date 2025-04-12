@@ -123,7 +123,7 @@ window.onload = function() {
 
     // Add event listener to the document
     document.addEventListener('keydown', handleKeyPress);
-      
+
 
     // Button event handlers
     document.getElementById('change-orientation').addEventListener('click', function() {
