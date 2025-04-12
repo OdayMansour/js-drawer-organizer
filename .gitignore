@@ -1,0 +1,56 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs
+*.log
+
+# Distribution / build directory
+dist/
+build/
+out/
+
+# Local development files
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Cache and temp files
+.cache/
+.temp/
+.tmp/
+
+# Coverage directory
+coverage/
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Optional npm cache directory (in case you end up using npm)
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
