@@ -1,4 +1,8 @@
-class InteractionHandler {
+import { UIManager } from './uiManager.js';
+import { BSPRenderer } from './bspRenderer.js';
+import { Rectangle, BSPNode } from './bsp.js';
+
+export class InteractionHandler {
     constructor(bspTree) {
         this.bspTree = bspTree;
         this.selectedNode = null;

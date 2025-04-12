@@ -1,4 +1,4 @@
-class CanvasSetup {
+export class CanvasSetup {
     constructor() {
         this.defaultWidth = 1000;
         this.defaultHeight = 600;

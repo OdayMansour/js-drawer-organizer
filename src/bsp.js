@@ -1,4 +1,4 @@
-class Rectangle {
+export class Rectangle {
     constructor(x, y, width, height, id = null) {
         this.x = x;
         this.y = y;
@@ -17,7 +17,7 @@ class Rectangle {
     }
 }
 
-class BSPNode {
+export class BSPNode {
     constructor(rectangle, parent = null) {
         this.rectangle = rectangle;
         this.dividerType = null;
@@ -40,7 +40,7 @@ class BSPNode {
     }
 }
 
-class BSPTree {
+export class BSPTree {
     constructor(width, height) {
         this.width = width;
         this.height = height;

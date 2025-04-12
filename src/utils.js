@@ -1,4 +1,4 @@
-class Utils {
+export class Utils {
     static generateColorFromId(id) {
         // Simple hash function to generate colors
         const hue = (id * 137) % 360;

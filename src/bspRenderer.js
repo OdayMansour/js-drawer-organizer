@@ -1,4 +1,6 @@
-class BSPRenderer {
+import { Utils } from './utils.js';
+
+export class BSPRenderer {
     constructor() {
         // Initialize guideLine as null in the constructor
         this.guideLine = null;

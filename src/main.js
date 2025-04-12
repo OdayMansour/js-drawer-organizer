@@ -1,3 +1,10 @@
+import { CanvasSetup } from './canvasSetup.js';
+import { BSPTree } from './bsp.js';
+import { InteractionHandler } from './interactionHandler.js';
+import { UIManager } from './uiManager.js';
+import { BSPRenderer } from './bspRenderer.js';
+
+
 // Initialize Paper.js
 paper.install(window);
 window.onload = async function() {

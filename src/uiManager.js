@@ -1,4 +1,4 @@
-class UIManager {
+export class UIManager {
     constructor() {
         this.infoPanel = document.getElementById('info-content');
     }
