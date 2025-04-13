@@ -3,30 +3,17 @@ import { Utils } from './utils.js';
 export class BSPRenderer {
     constructor() {
         // Initialize guideLine as null in the constructor
-        this.guideLine = null;
-        this.guideText = null;
-        this.topDistanceLine = null;
-        this.bottomDistanceLine = null;
-        this.topDistanceText = null;
-        this.bottomDistanceText = null;
+        this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
+        this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
+        this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
+        this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
+        this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+        this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
     }
 
     renderBSPTree(bsp) {
         // Clear existing items
         paper.project.activeLayer.removeChildren();
-
-        // Create a new guideline
-        try {
-            this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
-            this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
-            this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
-            this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
-            this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
-            this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
-
-        } catch (error) {
-            console.error("Error creating guideline:", error);
-        }
 
         // Draw all leaf compartments
         for (const leaf of bsp.getAllLeafNodes()) {
@@ -96,30 +83,43 @@ export class BSPRenderer {
 
     updateGuideLine(orientation, position, node) {
 
-        // Create any of the objects if they're not yet here
-        if (!this.guideLine)
-            this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
-        if (!this.guideText)
-            this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
-        if (!this.topDistanceLine)
-            this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1, dashArray: [2, 4] });
-        if (!this.bottomDistanceLine)
-            this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1, dashArray: [2, 4] });
-        if (!this.topDistanceText)
-            this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
-        if (!this.bottomDistanceText)
-            this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+        // Calculate distances
+        const leftDist = position.x - node.rectangle.x;
+        const rightDist = node.rectangle.x + node.rectangle.width - position.x;
+        const topDist = position.y - node.rectangle.y;
+        const bottomDist = node.rectangle.y + node.rectangle.height - position.y;
+
+        // Indicate in green when splitting down the middle
+        let distanceLineColor = 'grey';
+        let distanceLineWidth = 1;
+        let distanceLineDashArray = [2,4]
+
+        if ( ( orientation === "vertical" && (leftDist == rightDist) ) || 
+             ( orientation === "horizontal" && (topDist == bottomDist) ) ) {
+            distanceLineColor = 'green';
+            distanceLineWidth = 2;
+            distanceLineDashArray = [1,0]
+        }
+
+        this.guideLine.remove();
+        this.topDistanceLine.remove();
+        this.bottomDistanceLine.remove();
+        this.guideText.remove();
+        this.topDistanceText.remove();
+        this.bottomDistanceText.remove();
+
+        this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
+        this.topDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
+        this.bottomDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
+        this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
+        this.topDistanceText = new PointText({ fillColor: distanceLineColor, fontSize: 10, fontWeight: 'normal' });
+        this.bottomDistanceText = new PointText({ fillColor: distanceLineColor, fontSize: 10, fontWeight: 'normal' });
 
         try {
-            // Clear the previous line
-            this.guideLine.removeSegments();
-            this.topDistanceLine.removeSegments();
-            this.bottomDistanceLine.removeSegments();
-
-                if (!node || !node.isLeaf()) {
-                    console.log("No valid node provided or node is not a leaf");
-                    return;
-                }
+            if (!node || !node.isLeaf()) {
+                console.log("No valid node provided or node is not a leaf");
+                return;
+            }
 
             let midPoint;
 
@@ -132,7 +132,7 @@ export class BSPRenderer {
 
                 // Calculate middle point for text
                 midPoint = new Point(
-                    position.x + 5, // Offset text to the right of the line
+                    position.x - 30, // Offset text to the right of the line
                     node.rectangle.y + (node.rectangle.height / 2)
                 );
                 // Update text content and position
@@ -142,24 +142,22 @@ export class BSPRenderer {
 
                 // Add horizontal distance lines
                 // Top distance line (from cursor to top edge)
-                const topDist = position.x - node.rectangle.x;
                 this.topDistanceLine.add(new Point(node.rectangle.x, position.y));
                 this.topDistanceLine.add(new Point(position.x, position.y));
-                this.topDistanceText.content = `${topDist} mm`;
+                this.topDistanceText.content = `${leftDist} mm`;
                 this.topDistanceText.point = new Point(
-                    node.rectangle.x + (topDist / 2),
-                    position.y - 10 // Text above the line
+                    node.rectangle.x + (leftDist / 2),
+                    position.y - 5 // Text above the line
                 );
                 this.topDistanceText.rotation = 0;
 
                 // Bottom distance line (from cursor to bottom edge)
-                const bottomDist = node.rectangle.x + node.rectangle.width - position.x;
                 this.bottomDistanceLine.add(new Point(position.x, position.y));
                 this.bottomDistanceLine.add(new Point(node.rectangle.x + node.rectangle.width, position.y));
-                this.bottomDistanceText.content = `${bottomDist} mm`;
+                this.bottomDistanceText.content = `${rightDist} mm`;
                 this.bottomDistanceText.point = new Point(
-                    position.x + (bottomDist / 2),
-                    position.y + 15 // Text below the line
+                    position.x + (rightDist / 2),
+                    position.y - 5 // Text below the line
                 );
                 this.bottomDistanceText.rotation = 0;
             } else {
@@ -182,23 +180,21 @@ export class BSPRenderer {
 
                 // Add vertical distance lines
                 // Top distance line (from cursor to top edge)
-                const topDist = position.y - node.rectangle.y;
                 this.topDistanceLine.add(new Point(position.x, node.rectangle.y));
                 this.topDistanceLine.add(new Point(position.x, position.y));
                 this.topDistanceText.content = `${topDist} mm`;
                 this.topDistanceText.point = new Point(
-                    position.x + 5, // Text to the right of the line
+                    position.x - 5, // Text to the right of the line
                     node.rectangle.y + (topDist / 2)
                 );
                 this.topDistanceText.rotation = 90;
 
                 // Bottom distance line (from cursor to bottom edge)
-                const bottomDist = node.rectangle.y + node.rectangle.height - position.y;
                 this.bottomDistanceLine.add(new Point(position.x, position.y));
                 this.bottomDistanceLine.add(new Point(position.x, node.rectangle.y + node.rectangle.height));
                 this.bottomDistanceText.content = `${bottomDist} mm`;
                 this.bottomDistanceText.point = new Point(
-                    position.x - 10, // Text to the left of the line
+                    position.x - 5, // Text to the right of the line
                     position.y + (bottomDist / 2)
                 );
                 this.bottomDistanceText.rotation = 90;
