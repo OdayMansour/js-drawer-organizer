@@ -1,3 +1,4 @@
+import { BSPAnalyzer } from './bspAnalyzer.js';
 import { Utils } from './utils.js';
 
 export class BSPRenderer {
@@ -12,6 +13,9 @@ export class BSPRenderer {
     }
 
     renderBSPTree(bsp) {
+        // Load Analyzer (for walls)
+        const bspAnalyzer = new BSPAnalyzer(bsp);
+
         // Clear existing items
         paper.project.activeLayer.removeChildren();
 
@@ -23,6 +27,14 @@ export class BSPRenderer {
         // Draw dividers
         for (const [divType, pos, rect] of bsp.getAllDividers()) {
             this.drawDivider(divType, pos, rect);
+        }
+
+        // Draw wall labels
+        let wallId = 0;
+        console.log(bspAnalyzer.generateWallsWood())
+        for (const wall of bspAnalyzer.generateWallsWood()) {
+            this.drawWallLabel(wallId, wall.type, wall.length, wall.startingPoint, wall.endingPoint);
+            wallId++;
         }
 
         // Update view
@@ -38,14 +50,14 @@ export class BSPRenderer {
             size: [rect.width, rect.height],
             strokeColor: isSelected ? '#ff0000' : '#000000',
             strokeWidth: isSelected ? 3 : 1,
-            fillColor: Utils.generateColorFromId(rect.id),
+            fillColor: Utils.generateRectColorFromId(rect.id),
             opacity: 0.5
         });
 
         // Add ID text to the compartment
         const text = new PointText({
             point: [rect.x + rect.width/2, rect.y + rect.height/2],
-            content: `ID: ${rect.id}`,
+            // content: `ID: ${rect.id}`,
             fillColor: 'black',
             fontFamily: 'Arial',
             fontWeight: 'bold',
@@ -59,21 +71,36 @@ export class BSPRenderer {
         return { rect: paperRect, text: text };
     }
 
+    drawWallLabel(wallId, type, length, startingPoint, endingPoint) {
+        const wallLabel = new PointText({ fillColor: Utils.generateDivColorFromId(length), fontSize: 10, fontWeight: 'normal' });
+        let midPoint, position;
+
+        if (type === 'vertical') {
+            position = startingPoint.x;
+            midPoint = new Point(position - 9, startingPoint.y + length/2.0);
+
+            wallLabel.content = `${length} mm`;
+            wallLabel.point = midPoint;
+            wallLabel.rotation = 90;
+    
+        } else { // horizontal
+            position = startingPoint.y;
+            midPoint = new Point(startingPoint.x + length/2.0 - 9, position - 3);
+
+            wallLabel.content = `${length} mm`;
+            wallLabel.point = midPoint;
+            wallLabel.rotation = 0;
+    
+        }
+    }
+
     drawDivider(dividerType, position, rect) {
         let from, to;
-
-        if (dividerType === 'vertical') {
-            from = new Point(position, rect.y);
-            to = new Point(position, rect.y + rect.height);
-        } else { // horizontal
-            from = new Point(rect.x, position);
-            to = new Point(rect.x + rect.width, position);
-        }
 
         const dividerLine = new Path.Line({
             from: from,
             to: to,
-            strokeColor: '#0000ff',
+            strokeColor: 'blue',
             strokeWidth: 2.5,
             dashArray: [5, 3]
         });
