@@ -51,12 +51,6 @@ export class InteractionHandler {
 
         // Select new node
         this.selectedNode = node;
-        if (node) {
-            this.renderer.updateNodeStyle(node, true);
-            this.uiManager.updateInfoPanel(node);
-        } else {
-            this.uiManager.clearInfoPanel();
-        }
 
         // Split the clicked node
         if (this.selectedNode && this.selectedNode.isLeaf()) {

@@ -49,7 +49,7 @@ export class BSPTree {
         const rootRectangle = new Rectangle(0, 0, width, height, this.nextId);
         this.nextId += 1;
         this.root = new BSPNode(rootRectangle);
-        this.joints = {};
+        this.connectors = {};
         this.history = [];
     }
 
@@ -133,9 +133,6 @@ export class BSPTree {
     }
 
     findNodeById(id, node = null) {
-        /**
-         * Find a node by the ID of its rectangle.
-         */
         if (node === null) {
             node = this.root;
         }
@@ -157,9 +154,6 @@ export class BSPTree {
     }
 
     findNodeByPosition(x, y, node = null) {
-        /**
-         * Find the leaf node containing the position (x, y).
-         */
         if (node === null) {
             node = this.root;
         }
@@ -188,9 +182,6 @@ export class BSPTree {
     }
 
     traversePreorder(node = null, level = 0) {
-        /**
-         * Traverse the tree in preorder and print the structure.
-         */
         if (node === null) {
             node = this.root;
         }
@@ -205,9 +196,6 @@ export class BSPTree {
     }
 
     traverseInorder(node = null, callback = null, level = 0) {
-        /**
-         * Traverse the tree in order with optional callback function.
-         */
         if (node === null) {
             node = this.root;
         }
@@ -226,9 +214,6 @@ export class BSPTree {
     }
 
     getAllLeafNodes() {
-        /**
-         * Return all leaf nodes (compartments) in the tree.
-         */
         const leaves = [];
 
         const collectLeaves = (node, level) => {
@@ -242,9 +227,6 @@ export class BSPTree {
     }
 
     getAllDividers() {
-        /**
-         * Return all dividers in the tree as (type, position, rect) tuples.
-         */
         const dividers = [];
 
         // Push sides
@@ -266,16 +248,13 @@ export class BSPTree {
 
     describe() {
 
-        this.joints = {};
-        this.joints[`{ x: 0, y: 0 }`] = 'L';
-        this.joints[`{ x: 0, y: ${this.height} }`] = 'L';
-        this.joints[`{ x: ${this.width}, y: 0 }`] = 'L';
-        this.joints[`{ x: ${this.width}, y: ${this.height} }`] = 'L';
+        // Adding corner L connectors
+        this.connectors = {};
+        this.connectors[`{ x: 0, y: 0 }`] = 'L';
+        this.connectors[`{ x: 0, y: ${this.height} }`] = 'L';
+        this.connectors[`{ x: ${this.width}, y: 0 }`] = 'L';
+        this.connectors[`{ x: ${this.width}, y: ${this.height} }`] = 'L';
 
-
-        /**
-         * Describe the tree structure.
-         */
         console.log(`BSP Tree for ${this.width}x${this.height} canvas`);
         console.log(`Total compartments: ${this.getAllLeafNodes().length}`);
         console.log(`Total dividers: ${this.getAllDividers().length}`);
@@ -302,28 +281,21 @@ export class BSPTree {
                 console.log(`  Horizontal divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
             }
 
-            if (!this.joints[startingPoint])
-                this.joints[startingPoint] = 'T';
-            else if (this.joints[startingPoint] == 'T')
-                this.joints[startingPoint] = '+';
+            if (!this.connectors[startingPoint])
+                this.connectors[startingPoint] = 'T';
+            else if (this.connectors[startingPoint] == 'T')
+                this.connectors[startingPoint] = '+';
 
-            if (!this.joints[endingPoint])
-                this.joints[endingPoint] = 'T';
-            else if (this.joints[endingPoint] == 'T')
-                this.joints[endingPoint] = '+';
+            if (!this.connectors[endingPoint])
+                this.connectors[endingPoint] = 'T';
+            else if (this.connectors[endingPoint] == 'T')
+                this.connectors[endingPoint] = '+';
         }
 
-        // console.log(this.joints)
+        let jointCount = { 'L': 0, 'T': 0, '+': 0 }
 
-        let jointCount = {
-            'L': 0,
-            'T': 0,
-            '+': 0
-        }
-
-        for (const key of Object.keys(this.joints)) {
-            jointCount[this.joints[key]]++;
-            // console.log(`${key}: ${this.joints[key]}`);
+        for (const key of Object.keys(this.connectors)) {
+            jointCount[this.connectors[key]]++;
         }
 
         console.log("Connectors needed: ")
@@ -333,13 +305,6 @@ export class BSPTree {
     }
 
     removeDivider(node) {
-        /**
-         * Remove a divider by merging its two child compartments.
-         * 
-         * @param node - The BSPNode that represents the divider to remove
-         * 
-         * @returns The updated node or false if the operation failed
-         */
         // Check if this is a divider node (has children)
         if (node.isLeaf()) {
             console.log("Cannot remove a divider from a leaf node");

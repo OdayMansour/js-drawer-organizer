@@ -17,47 +17,24 @@ export class BSPRenderer {
 
         // Create a new guideline
         try {
-            this.guideLine = new Path({
-                strokeColor: 'black',
-                strokeWidth: 2
-            });
-            this.guideText = new PointText({
-                fillColor: 'black',
-                fontSize: 12,
-                fontWeight: 'bold'
-            });
-            this.topDistanceLine = new Path({
-                strokeColor: 'grey',
-                strokeWidth: 1
-            });
-            this.bottomDistanceLine = new Path({
-                strokeColor: 'grey',
-                strokeWidth: 1
-            });
-            this.topDistanceText = new PointText({
-                fillColor: 'grey',
-                fontSize: 10,
-                fontWeight: 'normal'
-            });
-            this.bottomDistanceText = new PointText({
-                fillColor: 'grey',
-                fontSize: 10,
-                fontWeight: 'normal'
-            });
+            this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
+            this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
+            this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
+            this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
+            this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+            this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
 
         } catch (error) {
             console.error("Error creating guideline:", error);
         }
 
         // Draw all leaf compartments
-        const leaves = bsp.getAllLeafNodes();
-        for (const leaf of leaves) {
+        for (const leaf of bsp.getAllLeafNodes()) {
             this.drawCompartment(leaf, false);
         }
 
         // Draw dividers
-        const dividers = bsp.getAllDividers();
-        for (const [divType, pos, rect] of dividers) {
+        for (const [divType, pos, rect] of bsp.getAllDividers()) {
             this.drawDivider(divType, pos, rect);
         }
 
@@ -117,103 +94,21 @@ export class BSPRenderer {
         return dividerLine;
     }
 
-    updateNodeStyle(node, isSelected) {
-        // Find the Paper.js item corresponding to this node
-        const items = paper.project.activeLayer.children;
-
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            if (item instanceof Path.Rectangle && item.data && item.data.node === node) {
-                // Update the style
-                item.strokeColor = isSelected ? '#ff0000' : '#000000';
-                item.strokeWidth = isSelected ? 3 : 1;
-
-                // Ensure the selected item is on top
-                if (isSelected) {
-                    item.bringToFront();
-                }
-                break;
-            }
-        }
-    }
-
     updateGuideLine(orientation, position, node) {
 
-        // If guideLine is null or undefined, create it
-        if (!this.guideLine) {
-            try {
-                this.guideLine = new Path({
-                    strokeColor: 'black',
-                    strokeWidth: 2
-                });
-            } catch (error) {
-                return; // Exit the function if we can't create it
-            }
-        }
-
-        if (!this.guideText) {
-            try {
-                this.guideText = new PointText({
-                    fillColor: 'black',
-                    fontSize: 12,
-                    fontWeight: 'bold'
-                });
-            } catch (error) {
-                return; // Exit the function if we can't create it
-            }
-        }
-
-        // Create or get the top distance line
-        if (!this.topDistanceLine) {
-            try {
-                this.topDistanceLine = new Path({
-                    strokeColor: 'grey',
-                    strokeWidth: 1,
-                    dashArray: [2, 4]
-                });
-            } catch (error) {
-                return;
-            }
-        }
-
-        // Create or get the bottom distance line
-        if (!this.bottomDistanceLine) {
-            try {
-                this.bottomDistanceLine = new Path({
-                    strokeColor: 'grey',
-                    strokeWidth: 1,
-                    dashArray: [2, 4]
-                });
-            } catch (error) {
-                return;
-    }
-        }
-
-        // Create or get the top distance text
-        if (!this.topDistanceText) {
-            try {
-                this.topDistanceText = new PointText({
-                    fillColor: 'grey',
-                    fontSize: 10,
-                    fontWeight: 'normal'
-                });
-            } catch (error) {
-                return;
-            }
-        }
-
-        // Create or get the bottom distance text
-        if (!this.bottomDistanceText) {
-            try {
-                this.bottomDistanceText = new PointText({
-                    fillColor: 'grey',
-                    fontSize: 10,
-                    fontWeight: 'normal'
-                });
-            } catch (error) {
-                return;
-            }
-        }
+        // Create any of the objects if they're not yet here
+        if (!this.guideLine)
+            this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
+        if (!this.guideText)
+            this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
+        if (!this.topDistanceLine)
+            this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1, dashArray: [2, 4] });
+        if (!this.bottomDistanceLine)
+            this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1, dashArray: [2, 4] });
+        if (!this.topDistanceText)
+            this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+        if (!this.bottomDistanceText)
+            this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
 
         try {
             // Clear the previous line
@@ -308,20 +203,6 @@ export class BSPRenderer {
                 );
                 this.bottomDistanceText.rotation = 90;
             }
-
-            // Bring the line and text to the front
-            this.guideLine.bringToFront();
-            // console.log(this.guideLine);
-            this.guideText.bringToFront();
-            // console.log(this.guideText);
-            this.topDistanceLine.bringToFront();
-            // console.log(this.topDistanceLine);
-            this.bottomDistanceLine.bringToFront();
-            // console.log(this.bottomDistanceLine);
-            this.topDistanceText.bringToFront();
-            // console.log(this.topDistanceText);
-            this.bottomDistanceText.bringToFront();
-            // console.log(this.bottomDistanceText);
 
         } catch (error) {
             console.error("Error updating guideline:", error);
