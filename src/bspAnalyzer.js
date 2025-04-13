@@ -116,18 +116,17 @@ export class BSPAnalyzer {
                 sortedPoints = intersectingPoints.sort((a, b) => a.x - b.x);
             }
 
-            console.log(`Found ${divType} at ${constantCoord} = ${pos} with size of ${wallLength}`);
-            console.log('  Intersecting points:');
-            console.log(intersectingPoints);
-            console.log('  Sorted points:');
-            console.log(sortedPoints);
+            // console.log(`Found ${divType} at ${constantCoord} = ${pos} with size of ${wallLength}`);
+            // console.log('  Intersecting points:');
+            // console.log(intersectingPoints);
+            // console.log('  Sorted points:');
+            // console.log(sortedPoints);
 
             // Get points on wall
-            intersectingPoints;
+            //   intersectingPoints;
             // Order points by the other coordinate
-            sortedPoints;
+            //   sortedPoints;
             // Generate a new section between each two points
-            // let smallWalls = [];
             for (let i=1; i<sortedPoints.length; i++) {
                 this.walls.push({
                     "type": divType,

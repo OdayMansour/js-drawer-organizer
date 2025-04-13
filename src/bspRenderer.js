@@ -30,11 +30,8 @@ export class BSPRenderer {
         }
 
         // Draw wall labels
-        let wallId = 0;
-        console.log(bspAnalyzer.generateWallsWood())
         for (const wall of bspAnalyzer.generateWallsWood()) {
-            this.drawWallLabel(wallId, wall.type, wall.length, wall.startingPoint, wall.endingPoint);
-            wallId++;
+            this.drawWallLabel(wall.type, wall.length, wall.startingPoint, wall.endingPoint);
         }
 
         // Update view
@@ -71,7 +68,7 @@ export class BSPRenderer {
         return { rect: paperRect, text: text };
     }
 
-    drawWallLabel(wallId, type, length, startingPoint, endingPoint) {
+    drawWallLabel(type, length, startingPoint, endingPoint) {
         const wallLabel = new PointText({ fillColor: Utils.generateDivColorFromId(length), fontSize: 10, fontWeight: 'normal' });
         let midPoint, position;
 

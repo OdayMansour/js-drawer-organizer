@@ -1,7 +1,7 @@
 export class CanvasSetup {
     constructor() {
-        this.defaultWidth = 1000;
-        this.defaultHeight = 600;
+        this.defaultWidth = 600;
+        this.defaultHeight = 400;
     }
 
     promptForDimensions() {
