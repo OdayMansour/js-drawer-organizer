@@ -7,6 +7,7 @@ export class BSPAnalyzer {
         this.connectors = {};
         this.connectorsCount = { 'L': 0, 'T': 0, '+': 0 };
         this.pointIndex = new SpatialPointIndex();
+        this.walls = [];
     }
 
     gatherPointsAndConnectors() {
@@ -34,11 +35,11 @@ export class BSPAnalyzer {
             if (divType === 'vertical') {
                 startingPoint = new Point(pos, rect.y);
                 endingPoint = new Point(pos, rect.y + rect.height);
-                console.log(`  Vertical divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
+                // console.log(`  Vertical divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
             } else {
                 startingPoint = new Point(rect.x, pos);
                 endingPoint = new Point(rect.x + rect.width, pos);
-                console.log(`  Horizontal divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
+                // console.log(`  Horizontal divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
             }
 
             if (!this.connectors[startingPoint])
@@ -51,18 +52,18 @@ export class BSPAnalyzer {
             else if (this.connectors[endingPoint] == 'T')
                 this.connectors[endingPoint] = '+';
 
-            this.pointIndex.addPoint(startingPoint)
-            this.pointIndex.addPoint(endingPoint)
+            this.pointIndex.addPoint(startingPoint);
+            this.pointIndex.addPoint(endingPoint);
         }
 
         for (const key of Object.keys(this.connectors)) {
             this.connectorsCount[this.connectors[key]]++;
         }
 
-        console.log("Point Index")
-        console.log(this.pointIndex)
-        console.log("Connectors")
-        console.log(this.connectors)
+        // console.log("Point Index");
+        // console.log(this.pointIndex);
+        // console.log("Connectors");
+        // console.log(this.connectors);
 
     }
 
@@ -79,7 +80,7 @@ export class BSPAnalyzer {
         //     console.log(`  ${leaf}`);
         // }
 
-        this.gatherPointsAndConnectors()
+        this.gatherPointsAndConnectors();
 
         console.log("Connectors needed: ")
         for (const key of Object.keys(this.connectorsCount)) {
@@ -87,22 +88,66 @@ export class BSPAnalyzer {
         }
     }
 
-    generateWallsAcrylic() {
-        this.gatherPointsAndConnectors()
+    generateWallsWood() {
+        this.gatherPointsAndConnectors();
+        
+        let constantCoord = 'x';
+        let wallLength = -1;
+        let startCoord = -1;
+        let endCoord = -1;
 
-        console.log(this.bsp.getAllDividers())
+        let intersectingPoints = [];
+        let sortedPoints = [];
+
         for (const [divType, pos, rect] of this.bsp.getAllDividers()) {
-            console.log(`Found a ${divType} wall:`)
             if ( divType == 'vertical' ) {
-                console.log(`  It's at x = ${pos} and has size of ${rect.height}`)
-                console.log('  It is intersected by these points')
-                console.log(this.pointIndex.findPointsOnVerticalSegment(pos, rect.y, rect.y + rect.height))
+                constantCoord = 'x'
+                wallLength = rect.height
+                startCoord = rect.y
+                endCoord = startCoord + wallLength
+                intersectingPoints = this.pointIndex.findPointsOnVerticalSegment(pos, startCoord, endCoord);
+                sortedPoints = intersectingPoints.sort((a, b) => a.y - b.y);
             } else {
-                console.log(`  It's at y = ${pos} and has size of ${rect.width}`)
-                console.log('  It is intersected by these points')
-                console.log(this.pointIndex.findPointsOnHorizontalSegment(pos, rect.x, rect.x + rect.width))
+                constantCoord = 'y'
+                wallLength = rect.width
+                startCoord = rect.x
+                endCoord = startCoord + wallLength
+                intersectingPoints = this.pointIndex.findPointsOnHorizontalSegment(pos, startCoord, endCoord);
+                sortedPoints = intersectingPoints.sort((a, b) => a.x - b.x);
             }
+
+            console.log(`Found ${divType} at ${constantCoord} = ${pos} with size of ${wallLength}`);
+            console.log('  Intersecting points:');
+            console.log(intersectingPoints);
+            console.log('  Sorted points:');
+            console.log(sortedPoints);
+
+            // Get points on wall
+            intersectingPoints;
+            // Order points by the other coordinate
+            sortedPoints;
+            // Generate a new section between each two points
+            // let smallWalls = [];
+            for (let i=1; i<sortedPoints.length; i++) {
+                this.walls.push({
+                    "type": divType,
+                    "length": divType === 'vertical' ? sortedPoints[i].y - sortedPoints[i-1].y : sortedPoints[i].x - sortedPoints[i-1].x,
+                    "startingPoint": sortedPoints[i-1],
+                    "endingPoint": sortedPoints[i]
+                })
+            }
+
+            // let sortedPoints = this.pointIndex.findPointsOnHorizontalSegment(pos, rect.x, rect.x + wallLength)
+
+            // this.walls.push({
+            //     "type": divType,
+            //     "length": wallLength
+            // });
         }
+    
+        // console.log(this.walls);
+        return this.walls;
+    
     }
 
 }

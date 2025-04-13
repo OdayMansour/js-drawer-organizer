@@ -113,7 +113,7 @@ export class InteractionHandler {
         } else if (event.key === 'd' || event.key === 'D') {
             this.bspAnalyzer.describe();
         } else if (event.key === 'w' || event.key === 'W') {
-            this.bspAnalyzer.generateWallsAcrylic();
+            this.bspAnalyzer.generateWallsWood();
         }
     }
 
