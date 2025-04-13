@@ -49,7 +49,6 @@ export class BSPTree {
         const rootRectangle = new Rectangle(0, 0, width, height, this.nextId);
         this.nextId += 1;
         this.root = new BSPNode(rootRectangle);
-        this.connectors = {};
         this.history = [];
     }
 
@@ -244,64 +243,6 @@ export class BSPTree {
 
         this.traverseInorder(null, collectDividers);
         return dividers;
-    }
-
-    describe() {
-
-        // Adding corner L connectors
-        this.connectors = {};
-        this.connectors[`{ x: 0, y: 0 }`] = 'L';
-        this.connectors[`{ x: 0, y: ${this.height} }`] = 'L';
-        this.connectors[`{ x: ${this.width}, y: 0 }`] = 'L';
-        this.connectors[`{ x: ${this.width}, y: ${this.height} }`] = 'L';
-
-        console.log(`BSP Tree for ${this.width}x${this.height} canvas`);
-        console.log(`Total compartments: ${this.getAllLeafNodes().length}`);
-        console.log(`Total dividers: ${this.getAllDividers().length}`);
-        console.log("Tree structure:");
-        // this.traversePreorder();
-
-        // console.log("Leaf nodes (compartments):");
-        // for (const leaf of this.getAllLeafNodes()) {
-        //     console.log(`  ${leaf}`);
-        // }
-
-        console.log("Dividers:");
-        for (const [divType, pos, rect] of this.getAllDividers().slice(4)) {
-            let startingPoint;
-            let endingPoint;
-
-            if (divType === 'vertical') {
-                startingPoint = new Point(pos, rect.y);
-                endingPoint = new Point(pos, rect.y + rect.height);
-                console.log(`  Vertical divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
-            } else {
-                startingPoint = new Point(rect.x, pos);
-                endingPoint = new Point(rect.x + rect.width, pos);
-                console.log(`  Horizontal divider at x=${pos}, within ${rect}, from ${startingPoint} to ${endingPoint}`);
-            }
-
-            if (!this.connectors[startingPoint])
-                this.connectors[startingPoint] = 'T';
-            else if (this.connectors[startingPoint] == 'T')
-                this.connectors[startingPoint] = '+';
-
-            if (!this.connectors[endingPoint])
-                this.connectors[endingPoint] = 'T';
-            else if (this.connectors[endingPoint] == 'T')
-                this.connectors[endingPoint] = '+';
-        }
-
-        let jointCount = { 'L': 0, 'T': 0, '+': 0 }
-
-        for (const key of Object.keys(this.connectors)) {
-            jointCount[this.connectors[key]]++;
-        }
-
-        console.log("Connectors needed: ")
-        for (const key of Object.keys(jointCount)) {
-            console.log(`  ${key}: ${jointCount[key]}`);
-        }
     }
 
     removeDivider(node) {

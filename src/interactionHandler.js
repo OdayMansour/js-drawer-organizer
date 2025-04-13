@@ -1,10 +1,12 @@
 import { UIManager } from './uiManager.js';
 import { BSPRenderer } from './bspRenderer.js';
 import { Rectangle, BSPNode } from './bsp.js';
+import { BSPAnalyzer } from './bspAnalyzer.js';
 
 export class InteractionHandler {
     constructor(bspTree) {
         this.bspTree = bspTree;
+        this.bspAnalyzer = new BSPAnalyzer(this.bspTree)
         this.selectedNode = null;
         this.guideOrientation = "horizontal";
         this.snapGrid = 5; // Snap to grid of 3.3 pixels
@@ -109,7 +111,9 @@ export class InteractionHandler {
             this.bspTree.undo();
             this.renderer.renderBSPTree(this.bspTree);
         } else if (event.key === 'd' || event.key === 'D') {
-            this.bspTree.describe();
+            this.bspAnalyzer.describe();
+        } else if (event.key === 'w' || event.key === 'W') {
+            this.bspAnalyzer.generateWallsAcrylic();
         }
     }
 
