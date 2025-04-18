@@ -10,6 +10,7 @@ export class InteractionHandler {
         this.selectedNode = null;
         this.guideOrientation = "horizontal";
         this.snapGrid = 5; // Snap to grid of 3.3 pixels
+        this.showRawLengths = false; // Toggle for showing raw vs. adjusted wall lengths
         this.uiManager = new UIManager();
         this.renderer = new BSPRenderer();
 
@@ -66,7 +67,7 @@ export class InteractionHandler {
                 this.bspTree.splitCompartmentOffset(this.selectedNode, 'horizontal', offset);
             }
 
-            this.renderer.renderBSPTree(this.bspTree);
+            this.renderer.renderBSPTree(this.bspTree, this.showRawLengths);
         } else {
             console.log("Please select a leaf compartment to split");
         }
@@ -114,6 +115,9 @@ export class InteractionHandler {
             this.bspAnalyzer.describe();
         } else if (event.key === 'w' || event.key === 'W') {
             this.bspAnalyzer.generateWallsWood();
+        } else if (event.key === 't' || event.key === 'T') {
+            this.renderer.toggleWallLengths();
+            this.renderer.renderBSPTree(this.bspTree);
         }
     }
 

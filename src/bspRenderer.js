@@ -10,10 +10,11 @@ export class BSPRenderer {
         this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
         this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
         this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+        this.showRawLengths = true;
     }
 
     renderBSPTree(bsp) {
-        // Load Analyzer (for walls)
+        // Load Analyzer (for walls) with 3mm connector thickness
         const bspAnalyzer = new BSPAnalyzer(bsp);
 
         // Clear existing items
@@ -31,7 +32,7 @@ export class BSPRenderer {
 
         // Draw wall labels
         for (const wall of bspAnalyzer.generateWallsWood()) {
-            this.drawWallLabel(wall.type, wall.length, wall.startingPoint, wall.endingPoint);
+            this.drawWallLabel(wall);
         }
 
         // Update view
@@ -68,26 +69,39 @@ export class BSPRenderer {
         return { rect: paperRect, text: text };
     }
 
-    drawWallLabel(type, length, startingPoint, endingPoint) {
-        const wallLabel = new PointText({ fillColor: Utils.generateDivColorFromId(length), fontSize: 10, fontWeight: 'normal' });
+    // drawWallLabel(type, length, startingPoint, endingPoint, rawLength) {
+    drawWallLabel(wall) {
+        // Create adjusted label style if the length has been modified
+        const isAdjusted = wall.rawLength && wall.rawLength !== wall.length;
+        
+        // Determine which length value to display
+        const displayLength = this.showRawLengths ? wall.rawLength : wall.length;
+        
+        const wallLabel = new PointText({ 
+            fillColor: Utils.generateDivColorFromId(displayLength), 
+            fontSize: 10, 
+            fontWeight: this.showRawLengths ? 'normal' : 'italic'
+        });
+        
         let midPoint, position;
 
-        if (type === 'vertical') {
-            position = startingPoint.x;
-            midPoint = new Point(position - 9, startingPoint.y + length/2.0);
+        if (wall.type === 'vertical') {
+            position = wall.startingPoint.x;
+            midPoint = new Point(position - 9, wall.startingPoint.y + displayLength/2.0);
 
-            wallLabel.content = `${length} mm`;
+            wallLabel.content = `${displayLength} mm`;
+            
             wallLabel.point = midPoint;
             wallLabel.rotation = 90;
     
         } else { // horizontal
-            position = startingPoint.y;
-            midPoint = new Point(startingPoint.x + length/2.0 - 9, position - 3);
+            position = wall.startingPoint.y;
+            midPoint = new Point(wall.startingPoint.x + displayLength/2.0 - 9, position - 3);
 
-            wallLabel.content = `${length} mm`;
+            wallLabel.content = `${displayLength} mm`;
+            
             wallLabel.point = midPoint;
             wallLabel.rotation = 0;
-    
         }
     }
 
@@ -228,4 +242,14 @@ export class BSPRenderer {
             console.error("Error updating guideline:", error);
         }
     }
+
+    toggleWallLengths() {
+        // Toggle between showing raw and adjusted wall lengths
+        this.showRawLengths = !this.showRawLengths;
+        if (this.showRawLengths)
+            console.log("Showing raw lengths.")
+        else
+            console.log("Showing adjusted lengths.")
+    }
+
 }

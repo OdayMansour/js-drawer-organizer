@@ -47,7 +47,7 @@ window.onload = async function() {
     const uiManager = new UIManager();
 
     // Render the initial tree
-    renderer.renderBSPTree(bspTree);
+    renderer.renderBSPTree(bspTree, interactionHandler.showRawLengths);
 
     // Setup UI event listeners
     document.getElementById('change-orientation').addEventListener('click', function() {
