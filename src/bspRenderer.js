@@ -119,6 +119,15 @@ export class BSPRenderer {
         return dividerLine;
     }
 
+    removeGuideLine() {
+        this.guideLine.remove();
+        this.topDistanceLine.remove();
+        this.bottomDistanceLine.remove();
+        this.guideText.remove();
+        this.topDistanceText.remove();
+        this.bottomDistanceText.remove();
+    }
+
     updateGuideLine(orientation, position, node) {
 
         // Calculate distances

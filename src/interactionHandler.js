@@ -99,6 +99,8 @@ export class InteractionHandler {
                 // this.guideOrientation === "vertical" ? snappedX : snappedY, 
                 node
             );
+        } else {
+            this.renderer.removeGuideLine();
         }
     }
 
