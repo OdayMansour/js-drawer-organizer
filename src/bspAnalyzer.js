@@ -22,7 +22,6 @@ export class BSPAnalyzer {
     }
 
     gatherPointsAndConnectors() {
-
         this.connectors = {};
         this.connectorsCount = { 'L': 0, 'T': 0, '+': 0 };
         this.pointIndex = new SpatialPointIndex();
@@ -73,36 +72,37 @@ export class BSPAnalyzer {
         for (const key of Object.keys(this.connectors)) {
             this.connectorsCount[this.connectors[key]]++;
         }
-
-        // console.log("Point Index");
-        // console.log(this.pointIndex);
-        // console.log("Connectors");
-        // console.log(this.connectors);
-
     }
 
     describe() {
+        let leafnodes = this.bsp.getAllLeafNodes();
 
-        console.log(`BSP Tree for ${this.bsp.width}x${this.bsp.height} canvas`);
-        console.log(`Total compartments: ${this.bsp.getAllLeafNodes().length}`);
-        console.log(`Total dividers: ${this.bsp.getAllDividers().length}`);
-        console.log("Tree structure:");
-        // this.bsp.traversePreorder();
+        console.log(`Dividers for a ${this.bsp.width}mm by ${this.bsp.height}mm space`);
+        console.log(`Total compartments: ${leafnodes.length}`);
 
-        // console.log("Leaf nodes (compartments):");
-        // for (const leaf of this.bsp.getAllLeafNodes()) {
-        //     console.log(`  ${leaf}`);
-        // }
+        this.generateWallsWood();
+        let wallCounts = this.walls.reduce( (wallCounts, wall) => {
+            const length = wall.length;
+            wallCounts[length] = (wallCounts[length] || 0) + 1;
+            return wallCounts;
+        }, {});
 
+        console.log("Walls needed: ");
+        // Sorting wall lenghts from longest to shortest
+        for (const wallLength of Object.keys(wallCounts).sort((a, b) => Number(b) - Number(a))) {
+            console.log(`  ${wallCounts[wallLength]} walls of length ${wallLength}`);
+        }
+        
         this.gatherPointsAndConnectors();
 
-        console.log("Connectors needed: ")
+        console.log("Connectors needed: ");
         for (const key of Object.keys(this.connectorsCount)) {
             console.log(`  ${key}: ${this.connectorsCount[key]}`);
         }
     }
 
     generateWallsWood() {
+        this.walls = [];
         this.gatherPointsAndConnectors();
         
         let constantCoord = 'x';
@@ -184,7 +184,6 @@ export class BSPAnalyzer {
         // console.log(this.walls);
         // console.log(this.connectors);
         return this.walls;
-    
     }
 
 }

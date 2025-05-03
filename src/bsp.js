@@ -53,7 +53,6 @@ export class BSPTree {
     }
 
     splitCompartmentOffset(node, dividerType, offset) {
-        console.log("Splitting " + dividerType + " on offset " + offset);
         this.history.push(node)
         let position = 0;
         if (dividerType === 'vertical') {
