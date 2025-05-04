@@ -10,7 +10,7 @@ export class BSPAnalyzer {
         this.connectorCompensation = { // thickness in mm to subtract for each connector
             'L': 3.2/2,
             'T': 3.2/2,
-            'X': 3.2/2
+            '+': 3.2/2
         }
     }
     
