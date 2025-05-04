@@ -22,12 +22,7 @@ export class BSPRenderer {
 
         // Draw all leaf compartments
         for (const leaf of bsp.getAllLeafNodes()) {
-            this.drawCompartment(leaf, false);
-        }
-
-        // Draw dividers
-        for (const [divType, pos, rect] of bsp.getAllDividers()) {
-            this.drawDivider(divType, pos, rect);
+            this.drawCompartment(leaf);
         }
 
         // Draw wall labels
@@ -39,41 +34,27 @@ export class BSPRenderer {
         paper.view.draw();
     }
 
-    drawCompartment(node, isSelected) {
+    drawCompartment(node) {
         const rect = node.rectangle;
 
         // Create Paper.js rectangle
         const paperRect = new Path.Rectangle({
             point: [rect.x, rect.y],
             size: [rect.width, rect.height],
-            strokeColor: isSelected ? '#ff0000' : '#000000',
-            strokeWidth: isSelected ? 3 : 1,
+            strokeColor: '#000000',
+            strokeWidth: 3,
             fillColor: Utils.generateRectColorFromId(rect.id),
             opacity: 0.5
-        });
-
-        // Add ID text to the compartment
-        const text = new PointText({
-            point: [rect.x + rect.width/2, rect.y + rect.height/2],
-            // content: `ID: ${rect.id}`,
-            fillColor: 'black',
-            fontFamily: 'Arial',
-            fontWeight: 'bold',
-            fontSize: 14,
-            justification: 'center'
         });
 
         // Store reference to node for interaction
         paperRect.data = { node: node };
 
-        return { rect: paperRect, text: text };
+        return { rect: paperRect };
     }
 
     // drawWallLabel(type, length, startingPoint, endingPoint, rawLength) {
     drawWallLabel(wall) {
-        // Create adjusted label style if the length has been modified
-        const isAdjusted = wall.rawLength && wall.rawLength !== wall.length;
-        
         // Determine which length value to display
         const displayLength = this.showRawLengths ? wall.rawLength : wall.length;
         
@@ -103,20 +84,6 @@ export class BSPRenderer {
             wallLabel.point = midPoint;
             wallLabel.rotation = 0;
         }
-    }
-
-    drawDivider(dividerType, position, rect) {
-        let from, to;
-
-        const dividerLine = new Path.Line({
-            from: from,
-            to: to,
-            strokeColor: 'blue',
-            strokeWidth: 2.5,
-            dashArray: [5, 3]
-        });
-
-        return dividerLine;
     }
 
     removeGuideLine() {

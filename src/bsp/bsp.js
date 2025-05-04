@@ -214,7 +214,7 @@ export class BSPTree {
     getAllLeafNodes() {
         const leaves = [];
 
-        const collectLeaves = (node, level) => {
+        const collectLeaves = (node) => {
             if (node.isLeaf()) {
                 leaves.push(node);
             }
@@ -233,7 +233,7 @@ export class BSPTree {
         dividers.push(['horizontal'    , 0                   , this.root.rectangle]);
         dividers.push(['horizontal'    , this.height         , this.root.rectangle]);
 
-        const collectDividers = (node, level) => {
+        const collectDividers = (node) => {
             if (!node.isLeaf() && node.dividerType && node.dividerPosition) {
                 const rect = node.rectangle;
                 dividers.push([node.dividerType, node.dividerPosition, rect]);

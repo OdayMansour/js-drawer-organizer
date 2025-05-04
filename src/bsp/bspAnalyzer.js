@@ -1,4 +1,3 @@
-import { BSPTree } from './bsp.js';
 import { SpatialPointIndex } from './spacialPointIndex.js';
 
 export class BSPAnalyzer {
@@ -8,7 +7,11 @@ export class BSPAnalyzer {
         this.connectorsCount = { 'L': 0, 'T': 0, '+': 0 };
         this.pointIndex = new SpatialPointIndex();
         this.walls = [];
-        this.connectorThickness = 3.2; // thickness in mm to subtract for each connector
+        this.connectorCompensation = { // thickness in mm to subtract for each connector
+            'L': 3.2/2,
+            'T': 3.2/2,
+            'X': 3.2/2
+        }
     }
     
     // Helper function to convert a point to a consistent string key
@@ -105,7 +108,6 @@ export class BSPAnalyzer {
         this.walls = [];
         this.gatherPointsAndConnectors();
         
-        let constantCoord = 'x';
         let wallLength = -1;
         let startCoord = -1;
         let endCoord = -1;
@@ -115,14 +117,12 @@ export class BSPAnalyzer {
 
         for (const [divType, pos, rect] of this.bsp.getAllDividers()) {
             if ( divType == 'vertical' ) {
-                constantCoord = 'x'
                 wallLength = rect.height
                 startCoord = rect.y
                 endCoord = startCoord + wallLength
                 intersectingPoints = this.pointIndex.findPointsOnVerticalSegment(pos, startCoord, endCoord);
                 sortedPoints = intersectingPoints.sort((a, b) => a.y - b.y);
             } else {
-                constantCoord = 'y'
                 wallLength = rect.width
                 startCoord = rect.x
                 endCoord = startCoord + wallLength
@@ -148,17 +148,9 @@ export class BSPAnalyzer {
                 
                 // Calculate length reduction based on connector types
                 let reductionAmount = 0;
-                
-                // Apply reduction at start point if there's a connector
-                if (startConnType) {
-                    reductionAmount += this.connectorThickness / 2;
-                }
-                
-                // Apply reduction at end point if there's a connector
-                if (endConnType) {
-                    reductionAmount += this.connectorThickness / 2;
-                }
-                
+                reductionAmount += this.connectorCompensation[startConnType] / 2;
+                reductionAmount += this.connectorCompensation[endConnType] / 2;
+                                
                 // Calculate adjusted length
                 const adjustedLength = Math.max(rawLength - reductionAmount, 0);
                 
@@ -172,17 +164,8 @@ export class BSPAnalyzer {
                     "endConnector": endConnType
                 })
             }
-
-            // let sortedPoints = this.pointIndex.findPointsOnHorizontalSegment(pos, rect.x, rect.x + wallLength)
-
-            // this.walls.push({
-            //     "type": divType,
-            //     "length": wallLength
-            // });
         }
     
-        // console.log(this.walls);
-        // console.log(this.connectors);
         return this.walls;
     }
 

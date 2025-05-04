@@ -61,26 +61,4 @@ window.onload = async function() {
         renderer.renderBSPTree(bspTree);
         uiManager.updateInfoPanel(null);
     });
-
-    // Optionally initialize an example tree
-    // initializeExampleTree(bspTree, renderer);
 };
-
-function initializeExampleTree(bsp, renderer) {
-    // Split the root node with a vertical divider at x=250
-    bsp.splitCompartment(bsp.root, 'vertical', 250);
-
-    // Find the left compartment (id=2) and split it horizontally at y=300
-    const leftNode = bsp.findNodeById(2);
-    if (leftNode) {
-        bsp.splitCompartment(leftNode, 'horizontal', 300);
-    }
-
-    // Find the right compartment (id=3) and split it horizontally at y=200
-    const rightNode = bsp.findNodeById(3);
-    if (rightNode) {
-        bsp.splitCompartment(rightNode, 'horizontal', 200);
-    }
-
-    renderer.renderBSPTree(bsp);
-}
