@@ -3,6 +3,7 @@ import { BSPTree } from './bsp.js';
 import { InteractionHandler } from './interactionHandler.js';
 import { UIManager } from './uiManager.js';
 import { BSPRenderer } from './bspRenderer.js';
+import { STLGenerator } from './stlGenerator.js';
 
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 
@@ -15,6 +16,7 @@ window.onload = async function() {
     // Drawing dimensions
     var drawingWidth = dimensions.width;
     var drawingHeight = dimensions.height;
+    var drawingDepth = dimensions.depth;
 
     // Setup Paper.js
     paper.setup('canvas');
@@ -45,6 +47,9 @@ window.onload = async function() {
 
     // Initialize UI manager
     const uiManager = new UIManager();
+
+    // Initialize STL Generator
+    const stlGenerator = new STLGenerator(drawingDepth);
 
     // Render the initial tree
     renderer.renderBSPTree(bspTree, interactionHandler.showRawLengths);

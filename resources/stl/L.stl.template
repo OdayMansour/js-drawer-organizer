@@ -1,0 +1,366 @@
+solid ASCII
+  facet normal 0.000000e+00 1.000000e+00 -0.000000e+00
+    outer loop
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.400000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.400000e+00 -6.200000e+01 __DEPTH__
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 -0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   3.000000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -6.200000e+01 __DEPTH__
+      vertex   1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   1.400000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   3.000000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 -0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -7.860000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.700000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.860000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -7.860000e+01 __DEPTH__
+      vertex   1.800000e+01 -7.700000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -1.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -1.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+      vertex   1.800000e+01 -7.860000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.860000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 -0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -8.140000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -8.140000e+01 __DEPTH__
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -8.300000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.140000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   1.800000e+01 -8.300000e+01 __DEPTH__
+      vertex   1.800000e+01 -8.140000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -1.000000e+00 0.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.300000e+01 0.000000e+00
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -1.000000e+00 0.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+      vertex   1.800000e+01 -8.300000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   -3.000000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -6.200000e+01 __DEPTH__
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 -0.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   -3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   -1.400000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 1.000000e+00 0.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -6.200000e+01 __DEPTH__
+      vertex   -3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   -3.000000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 0.000000e+00 0.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   -1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 1.000000e+00 -0.000000e+00 0.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   -1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   -1.400000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -6.200000e+01 __DEPTH__
+      vertex   -3.000000e+00 -6.200000e+01 __DEPTH__
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   -3.000000e+00 -6.200000e+01 __DEPTH__
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+      vertex   -3.000000e+00 -8.300000e+01 __DEPTH__
+      vertex   1.800000e+01 -8.300000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+      vertex   1.800000e+01 -8.300000e+01 __DEPTH__
+      vertex   1.800000e+01 -8.140000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -0.000000e+00 1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -8.140000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   1.400000e+00 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+      vertex   1.400000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   1.400000e+00 -6.200000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+      vertex   3.000000e+00 -6.200000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 __DEPTH__
+      vertex   1.800000e+01 -7.860000e+01 __DEPTH__
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.700000e+01 __DEPTH__
+      vertex   1.800000e+01 -7.860000e+01 __DEPTH__
+      vertex   1.800000e+01 -7.700000e+01 __DEPTH__
+    endloop
+  endfacet
+  facet normal -0.000000e+00 -0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   -1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   -3.000000e+00 -6.200000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   -1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.700000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   1.400000e+00 -6.200000e+01 0.000000e+00
+      vertex   3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   1.400000e+00 -7.700000e+01 0.000000e+00
+      vertex   3.000000e+00 -6.200000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.700000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   1.800000e+01 -7.700000e+01 0.000000e+00
+      vertex   1.800000e+01 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 -0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   3.000000e+00 -7.860000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   -3.000000e+00 -8.300000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.300000e+01 0.000000e+00
+    endloop
+  endfacet
+  facet normal 0.000000e+00 0.000000e+00 -1.000000e+00
+    outer loop
+      vertex   1.800000e+01 -8.300000e+01 0.000000e+00
+      vertex   3.000000e+00 -8.140000e+01 0.000000e+00
+      vertex   1.800000e+01 -8.140000e+01 0.000000e+00
+    endloop
+  endfacet
+endsolid
