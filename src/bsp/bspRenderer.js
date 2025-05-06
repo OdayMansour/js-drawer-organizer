@@ -122,7 +122,7 @@ export class BSPRenderer {
         this.topDistanceText.remove();
         this.bottomDistanceText.remove();
 
-        this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
+        this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 3 });
         this.topDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
         this.bottomDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
         this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
