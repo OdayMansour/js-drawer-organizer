@@ -1,7 +1,7 @@
 export class CanvasSetup {
     constructor() {
-        this.defaultWidth = 600;
-        this.defaultHeight = 400;
+        this.defaultWidth = 270;
+        this.defaultHeight = 420;
         this.defaultDepth = 40;
     }
 
@@ -21,7 +21,8 @@ export class CanvasSetup {
 
             container.innerHTML = `
                 <h2>Dividers Dimensions</h2>
-                <div>
+                The dividers will be 2mm larger on each side<br />This is due to the 3D-printed connnectors<br />sticking out on the sides.
+                <div style="margin-top: 10px;">
                     <label for="canvas-width">Width (mm): </label>
                     <input type="number" id="canvas-width" value="${this.defaultWidth}" min="200" max="1200">
                 </div>

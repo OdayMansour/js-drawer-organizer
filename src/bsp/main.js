@@ -25,7 +25,7 @@ window.onload = async function() {
     const scaleFactor = Math.min(
         window.innerWidth / drawingWidth,
         window.innerHeight / drawingHeight
-    ) * 0.9;
+    ) * 0.85;
 
     // Move the center of the drawing to prepare for scaling
     paper.view.center = new Point(

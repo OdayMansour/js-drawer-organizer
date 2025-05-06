@@ -4,13 +4,13 @@ export class BSPAnalyzer {
     constructor(bsp) {
         this.bsp = bsp;
         this.connectors = {};
-        this.connectorsCount = { 'L': 0, 'T': 0, '+': 0 };
+        this.connectorsCount = { 'L': 0, 'T': 0, 'X': 0 };
         this.pointIndex = new SpatialPointIndex();
         this.walls = [];
         this.connectorCompensation = { // thickness in mm to subtract for each connector
-            'L': 3.2/2,
-            'T': 3.2/2,
-            '+': 3.2/2
+            'L': 6.0/2,
+            'T': 6.0/2,
+            'X': 6.0/2
         }
     }
     
@@ -26,7 +26,7 @@ export class BSPAnalyzer {
 
     gatherPointsAndConnectors() {
         this.connectors = {};
-        this.connectorsCount = { 'L': 0, 'T': 0, '+': 0 };
+        this.connectorsCount = { 'L': 0, 'T': 0, 'X': 0 };
         this.pointIndex = new SpatialPointIndex();
 
         // Adding corner L connectors
@@ -61,12 +61,12 @@ export class BSPAnalyzer {
             if (!this.connectors[startKey])
                 this.connectors[startKey] = 'T';
             else if (this.connectors[startKey] === 'T')
-                this.connectors[startKey] = '+';
+                this.connectors[startKey] = 'X';
 
             if (!this.connectors[endKey])
                 this.connectors[endKey] = 'T';
             else if (this.connectors[endKey] === 'T')
-                this.connectors[endKey] = '+';
+                this.connectors[endKey] = 'X';
 
             this.pointIndex.addPoint(startingPoint);
             this.pointIndex.addPoint(endingPoint);
@@ -148,8 +148,8 @@ export class BSPAnalyzer {
                 
                 // Calculate length reduction based on connector types
                 let reductionAmount = 0;
-                reductionAmount += this.connectorCompensation[startConnType] / 2;
-                reductionAmount += this.connectorCompensation[endConnType] / 2;
+                reductionAmount += this.connectorCompensation[startConnType];
+                reductionAmount += this.connectorCompensation[endConnType];
                                 
                 // Calculate adjusted length
                 const adjustedLength = Math.max(rawLength - reductionAmount, 0);
