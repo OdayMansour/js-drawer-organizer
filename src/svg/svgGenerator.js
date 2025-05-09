@@ -1,143 +1,247 @@
 export class SVGGenerator {
-    constructor(depth, bspAnalyzer) {
+    constructor(depth, bspAnalyzer, options = {}) {
         this.depth = depth;
         this.bspAnalyzer = bspAnalyzer;
-
+        
+        this.maxPages = 2,
+        this.svgWidth = 600,
+        this.svgHeight = 400,
+        this.margin = 5,
+        this.padding = 2,
+        this.backgroundColor = "#ffffff",
+        this.cutColor = "#ff0000",
+        this.engraveColor = "#000000",
+        this.fontSize = 3
+        
         document.getElementById('downloadSVG').addEventListener('click', () => {
             const walls = bspAnalyzer.generateWallsWood();
-            console.log(walls);
-
-            let wallCounts = walls.reduce( (wallCounts, wall) => {
-                const length = wall.length;
-                wallCounts[length] = (wallCounts[length] || 0) + 1;
-                return wallCounts;
-            }, {});
-
-            // console.log("Walls needed: ");
-            let rectangles = []
-            // Sorting wall lenghts from longest to shortest
-            for (const wallLength of Object.keys(wallCounts).sort((a, b) => Number(b) - Number(a))) {
-                rectangles.push({ width: parseInt(wallLength), height: this.depth, count: wallCounts[wallLength]});
-                console.log(`  ${wallCounts[wallLength]} walls of length ${wallLength}`);
+            walls.sort((a, b) => b.length - a.length);
+            
+            let pages = this.packWalls(walls);
+            
+            let svgs = this.generateSVGs(pages);
+            
+            let svgFiles = [];
+            let counter = 1;
+            for (const svg of svgs) {
+                let filename = `svg_page_${counter}_of_${svgs.length}.svg`
+                svgFiles.push({
+                    filename: filename,
+                    content: svg
+                })
+                counter += 1;
             }
-
-            let count = 0;
-            for (const svg of this.generateRectanglesSVG(rectangles)) {
-                count += 1;
-                console.log(`SVG #${count}`);
-                console.log(svg);
-            }
+            console.log(svgFiles);
+            this.createAndDownloadZip(svgFiles);
         });
     }
-
+    
     /**
-    * Generates an SVG with rectangles based on the provided specifications
-    * @param {Array<Object>} rectangles - Array of rectangle objects with width, height, and count properties
-    * @param {Object} options - Optional configuration for the SVG
-    * @returns {string} SVG markup as a string
+    * Packs rectangles onto a canvas to minimize wasted space
+    * @param {number} canvasWidth - Width of the canvas
+    * @param {number} canvasHeight - Height of the canvas
+    * @param {Array<{width: number, height: number}>} rectangles - Array of rectangles sorted by size (largest to smallest)
+    * @returns {Array<{x: number, y: number, width: number, height: number}>} - Positioned rectangles
     */
-    generateRectanglesSVG(rectangles, options = {}) {
-        const {
-            svgWidth = 600,
-            svgHeight = 400,
-            margin = 5,
-            padding = 2,
-            backgroundColor = "#ffffff",
-            cutColor = "#ff0000",
-            engraveColor = "#000000",
-            fontSize = 3
-        } = options;
-
-        const svgInitString = `<svg width="${svgWidth}mm" height="${svgHeight}mm" xmlns="http://www.w3.org/2000/svg" style="background-color: ${backgroundColor};">\n`
-
-        let svgs = [];
-
-        let svg = svgInitString;
-
-        // Initialize position tracking
-        let currentX = margin;
-        let currentY = margin;
-        let maxHeightInRow = 0;
-
-        let rectIndex = 0;
-
-        // Draw each rectangle the specified number of times
-        rectangles.forEach((rectSpec, specIndex) => {
-            const { width, height, count } = rectSpec;
-
-            for (let i = 0; i < count; i++) {
-                // Check if we need to move to the next row
-                if ((currentX + width + padding) > (svgWidth - margin)) {
-                    currentY += maxHeightInRow + padding;
-                        // But first, check if we need to go to the next page
-                    if ((currentY + height + padding) > (svgHeight - margin)) {
-                        // We need a new page! Close this svg and push it to the list
-                        svg += '</svg>';
-                        svgs.push(svg);
-
-                        // Then create a new svg and continue on it
-                        svg = svgInitString;
-                        currentX = margin;
-                        currentY = margin;
-                        maxHeightInRow = 0;
-                    } else {
-                        // We just need to go to the next line
-                        currentX = margin;
-                        maxHeightInRow = 0;
+    packWalls(walls) {
+        let canvasWidth = this.svgWidth - this.margin*2;
+        let canvasHeight = this.svgHeight - this.margin*2;
+        
+        // Result array with positioned rectangles
+        let pages = [];
+        let page = [];
+        
+        // If no rectangles, return empty array
+        if (!walls.length) return pages;
+        
+        // Current y-coordinate (top of current row)
+        let currentY = 0;
+        // Maximum height of rectangles in the current row
+        let currentRowHeight = 0;
+        // Remaining width in the current row
+        let remainingWidth = canvasWidth;
+        // Current x-coordinate for placement
+        let currentX = 0;
+        
+        // Copy rectangles to avoid modifying the original array
+        let remainingRectangles = []
+        for (const wall of walls) {
+            remainingRectangles.push({width: wall.length + this.padding, height: this.depth + this.padding})
+        }
+        
+        // Continue until we've placed all rectangles or run out of space
+        while (remainingRectangles.length > 0) {
+            // If we've reached the bottom of the canvas, stop
+            if ( (currentY + this.depth + this.padding) >= canvasHeight) {
+                console.log("Reached end of page");
+                pages.push(page);
+                console.log(pages);
+                page = [];
+                console.log(pages);
+                // Current y-coordinate (top of current row)
+                currentY = 0;
+                // Maximum height of rectangles in the current row
+                currentRowHeight = 0;
+                // Remaining width in the current row
+                remainingWidth = canvasWidth;
+                // Current x-coordinate for placement
+                currentX = 0;
+            }
+            
+            // If this is the start of a new row
+            if (remainingWidth === canvasWidth) {
+                // Place the first rectangle (the largest remaining one)
+                const rect = remainingRectangles.shift();
+                
+                // Check if it fits on the canvas
+                if (rect.width > canvasWidth || currentY + rect.height > canvasHeight) {
+                    // Skip this rectangle if it doesn't fit
+                    continue;
+                }
+                
+                // Place the rectangle
+                page.push({
+                    x: 0,
+                    y: currentY,
+                    width: rect.width,
+                    height: rect.height
+                });
+                
+                // Update variables
+                currentX = rect.width;
+                remainingWidth = canvasWidth - rect.width;
+                currentRowHeight = rect.height;
+            } else {
+                // Find the best-fitting rectangle for the remaining space
+                let bestFitIndex = -1;
+                let bestWastedSpace = Number.MAX_VALUE;
+                
+                // Iterate through remaining rectangles to find the best fit
+                for (let i = 0; i < remainingRectangles.length; i++) {
+                    const rect = remainingRectangles[i];
+                    
+                    // Skip if the rectangle doesn't fit in the remaining width
+                    if (rect.width > remainingWidth) {
+                        continue;
+                    }
+                    
+                    // Calculate wasted space (difference between remaining width and rectangle width)
+                    const wastedSpace = remainingWidth - rect.width;
+                    
+                    // If this is the best fit so far, update bestFitIndex
+                    if (wastedSpace < bestWastedSpace) {
+                        bestFitIndex = i;
+                        bestWastedSpace = wastedSpace;
+                    }
+                    
+                    // If we found a perfect fit, no need to continue searching
+                    if (wastedSpace === 0) {
+                        break;
                     }
                 }
                 
-                // Add rectangle to SVG
-                svg += `<rect x="${currentX}mm" y="${currentY}mm" width="${width}mm" height="${height}mm" fill="none" stroke="${cutColor}" stroke-width="1" data-index="${specIndex}" data-instance="${i}"/>\n`;
-
-                // Calculate the center of the rectangle for text placement
-                // const textX = currentX + (width / 2);
-                // const textY = currentY + (height / 2);
-                const textX = currentX + padding;
-                const textY = currentY + padding;
-
-                // Add text displaying dimensions and count
-                svg += `<text x="${textX}mm" y="${textY + fontSize * 1}mm" text-anchor="left" font-size="${fontSize}mm" fill="${engraveColor}">${width}mm</text>\n`;
-                svg += `<text x="${textX}mm" y="${textY + fontSize * 2}mm" text-anchor="left" font-size="${fontSize}mm" fill="${engraveColor}">× ${height}mm</text>\n`;
-                svg += `<text x="${textX}mm" y="${textY + fontSize * 3}mm" text-anchor="left" font-size="${fontSize}mm" fill="${engraveColor}">#${i+1}/${count}</text>\n`;
-
-                // Update position for next rectangle
-                currentX += width + padding;
-                maxHeightInRow = Math.max(maxHeightInRow, height);
-                rectIndex++;
+                // If we found a fitting rectangle
+                if (bestFitIndex !== -1) {
+                    const rect = remainingRectangles.splice(bestFitIndex, 1)[0];
+                    
+                    // Place the rectangle
+                    page.push({
+                        x: currentX,
+                        y: currentY,
+                        width: rect.width,
+                        height: rect.height
+                    });
+                    
+                    // Update variables
+                    currentX += rect.width;
+                    remainingWidth -= rect.width;
+                    currentRowHeight = Math.max(currentRowHeight, rect.height);
+                } else {
+                    // No more rectangles fit in this row, move to the next row
+                    currentY += currentRowHeight;
+                    currentX = 0;
+                    remainingWidth = canvasWidth;
+                    currentRowHeight = 0;
+                }
             }
-        });
-
-        // Close SVG tag
-        svg += '</svg>';
-        svgs.push(svg)
+        }
+        
+        pages.push(page);
+        return pages;
+    }
+    
+    generateSVGs(pages) {
+        const svgInitString = `<svg width="${this.svgWidth}mm" height="${this.svgHeight}mm" xmlns="http://www.w3.org/2000/svg" style="background-color: ${this.backgroundColor};">\n`;
+        
+        let svgs = [];
+        
+        for (const page of pages) {
+            let svg = svgInitString;
+            for (const box of page) {
+                let paddedX = box.x;
+                let paddedY = box.y;
+                let offsetX = paddedX + this.padding/2 + this.margin;
+                let offsetY = paddedY + this.padding/2 + this.margin;
+                
+                let width = box.width - this.padding;
+                let height = box.height - this.padding;
+                
+                svg += `<rect x="${offsetX}mm" y="${offsetY}mm" width="${width}mm" height="${height}mm" fill="none" stroke="${this.cutColor}" stroke-width="1" />\n`;
+                
+                const textX = offsetX + this.padding;
+                const textY = offsetY + this.padding;
+                
+                svg += `<text x="${textX}mm" y="${textY + this.fontSize * 1}mm" text-anchor="left" font-size="${this.fontSize}mm" fill="${this.engraveColor}">${width}mm</text>\n`;
+                svg += `<text x="${textX}mm" y="${textY + this.fontSize * 2}mm" text-anchor="left" font-size="${this.fontSize}mm" fill="${this.engraveColor}">× ${height}mm</text>\n`;
+            }
+            
+            svg += '</svg>';
+            // console.log(svg)
+            
+            svgs.push(svg);
+        }
+        
         return svgs;
     }
-
-    /**
-    * Downloads the generated SVG as a file
-    * @param {Array<Object>} rectangles - Array of rectangle objects
-    * @param {Object} options - Optional configuration
-    */
-    downloadRectanglesSVG(rectangles, options = {}) {
-        const svgMarkup = generateRectanglesSVG(rectangles, options);
-        const filename = options.filename || 'rectangles.svg';
-
-        // Create download link
-        const link = document.createElement('a');
-        const blob = new Blob([svgMarkup], { type: 'image/svg+xml' });
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-
+    
+    async createAndDownloadZip(files) {
+        // Load JSZip library dynamically
+        if (typeof JSZip === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Create a new ZIP file
+        const zip = new JSZip();
+        
+        // Add each file to the ZIP
+        files.forEach(file => {
+            zip.file(file.filename, file.content);
+        });
+        
+        // Generate the ZIP file content as a blob
+        const zipBlob = await zip.generateAsync({
+            type: 'blob',
+            compression: "DEFLATE",
+            compressionOptions: {level: 9}});
+        
+        // Create a download link for the ZIP
+        const downloadUrl = URL.createObjectURL(zipBlob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = downloadUrl;
+        downloadLink.download = 'generated_SVG.zip';
+        
         // Trigger download
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        
+        // Clean up
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadUrl);
     }
-
-    // Display in the page
-    // displayRectanglesSVG(exampleRectangles, { containerId: 'svg-container' });
-
-    // Download as SVG file
-    // downloadRectanglesSVG(exampleRectangles, { filename: 'my-rectangles.svg' });
 }
