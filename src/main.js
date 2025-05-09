@@ -1,6 +1,5 @@
 // Web page things
 import { CanvasSetup } from './html/canvasSetup.js';
-import { UIManager } from './html/uiManager.js';
 
 // BSP things
 import { BSPTree } from './bsp/bsp.js';
@@ -52,9 +51,6 @@ window.onload = async function() {
     // Initialize renderer
     const renderer = new BSPRenderer();
 
-    // Initialize UI manager
-    const uiManager = new UIManager();
-
     // Initialize STL Generator
     const stlGenerator = new STLGenerator(drawingDepth);
 
@@ -71,6 +67,5 @@ window.onload = async function() {
         bspTree.nextId = 2;
         interactionHandler.selectedNode = null;
         renderer.renderBSPTree(bspTree);
-        uiManager.updateInfoPanel(null);
     });
 };
