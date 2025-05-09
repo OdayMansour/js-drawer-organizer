@@ -5,11 +5,13 @@ import { CanvasSetup } from './html/canvasSetup.js';
 import { BSPTree } from './bsp/bsp.js';
 import { InteractionHandler } from './bsp/interactionHandler.js';
 import { BSPRenderer } from './bsp/bspRenderer.js';
+import { BSPAnalyzer } from './bsp/bspAnalyzer.js';
 
 // STL things
 import { STLGenerator } from './stl/stlGenerator.js';
 
 // SVG things
+import { SVGGenerator } from './svg/svgGenerator.js';
 
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 
@@ -53,6 +55,10 @@ window.onload = async function() {
 
     // Initialize STL Generator
     const stlGenerator = new STLGenerator(drawingDepth);
+
+    // Initialize SVG Generator
+    const svgGenerator = new SVGGenerator(drawingDepth, new BSPAnalyzer(bspTree));
+    console.log(svgGenerator);
 
     // Render the initial tree
     renderer.renderBSPTree(bspTree, interactionHandler.showRawLengths);
