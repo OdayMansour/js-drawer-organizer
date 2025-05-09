@@ -1,9 +1,16 @@
-import { CanvasSetup } from './canvasSetup.js';
-import { BSPTree } from './bsp.js';
-import { InteractionHandler } from './interactionHandler.js';
-import { UIManager } from './uiManager.js';
-import { BSPRenderer } from './bspRenderer.js';
-import { STLGenerator } from './stlGenerator.js';
+// Web page things
+import { CanvasSetup } from './html/canvasSetup.js';
+import { UIManager } from './html/uiManager.js';
+
+// BSP things
+import { BSPTree } from './bsp/bsp.js';
+import { InteractionHandler } from './bsp/interactionHandler.js';
+import { BSPRenderer } from './bsp/bspRenderer.js';
+
+// STL things
+import { STLGenerator } from './stl/stlGenerator.js';
+
+// SVG things
 
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 

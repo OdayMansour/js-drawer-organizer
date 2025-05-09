@@ -1,4 +1,3 @@
-import { UIManager } from './uiManager.js';
 import { BSPRenderer } from './bspRenderer.js';
 import { Rectangle, BSPNode } from './bsp.js';
 import { BSPAnalyzer } from './bspAnalyzer.js';
@@ -11,7 +10,6 @@ export class InteractionHandler {
         this.guideOrientation = "horizontal";
         this.snapGrid = 5; // Snap to grid of 3.3 pixels
         this.showRawLengths = false; // Toggle for showing raw vs. adjusted wall lengths
-        this.uiManager = new UIManager();
         this.renderer = new BSPRenderer();
 
         this.initializeTools();
@@ -90,7 +88,6 @@ export class InteractionHandler {
         let info = "";
         info += "mousex = " + snappedX + " - mousey = " + snappedY + "<br/>";
         info += "asd";
-        this.uiManager.setInfoContent(info);
 
         if (node && node.isLeaf()) {
             this.renderer.updateGuideLine(
@@ -132,6 +129,5 @@ export class InteractionHandler {
         this.bspTree.nextId = 2;
         this.selectedNode = null;
         this.renderer.renderBSPTree(this.bspTree);
-        this.uiManager.setDefaultInfoContent();
     }
 }
