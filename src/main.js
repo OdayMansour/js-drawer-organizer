@@ -60,6 +60,22 @@ window.onload = async function() {
     const svgGenerator = new SVGGenerator(drawingDepth, new BSPAnalyzer(bspTree));
     console.log(svgGenerator);
 
+    let debug = true;
+    // let debug = false;
+    if (debug) { // Do an initial slice-up
+        let node = bspTree.findNodeByPosition(165, 340);
+        bspTree.splitCompartmentOffset(node, 'horizontal', 340);
+        node = bspTree.findNodeByPosition(175, 260);
+        bspTree.splitCompartmentOffset(node, 'horizontal', 260);
+        node = bspTree.findNodeByPosition(180, 180);
+        bspTree.splitCompartmentOffset(node, 'horizontal', 180);
+        node = bspTree.findNodeByPosition(135, 115);
+        bspTree.splitCompartmentOffset(node, 'vertical', 135);
+        node = bspTree.findNodeByPosition(180, 120);
+        bspTree.splitCompartmentOffset(node, 'horizontal', 120);
+        node = bspTree.findNodeByPosition(70, 60);
+        bspTree.splitCompartmentOffset(node, 'horizontal', 60);
+    }
     // Render the initial tree
     renderer.renderBSPTree(bspTree, interactionHandler.showRawLengths);
 
