@@ -20,46 +20,50 @@ paper.install(window);
 window.onload = async function() {
     const canvasSetup = new CanvasSetup();
     const dimensions = await canvasSetup.promptForDimensions();
-
+    
     // Drawing dimensions
     var drawingWidth = dimensions.width;
     var drawingHeight = dimensions.height;
     var drawingDepth = dimensions.depth;
-
+    
     // Setup Paper.js
     paper.setup('canvas');
-
+    // Correct way to extend PointText for default styling
+    paper.project.currentStyle = {
+        fontFamily: 'Inconsolata',
+        fontSize: 9
+    }
     // Get size of drawing, size of canvas, and derive scaling factor needed to fill 90% of screen
     const scaleFactor = Math.min(
         window.innerWidth / drawingWidth,
         window.innerHeight / drawingHeight
     ) * 0.85;
-
+    
     // Move the center of the drawing to prepare for scaling
     paper.view.center = new Point(
         paper.view.center.x / scaleFactor * 0.9,
         paper.view.center.y / scaleFactor * 0.9
     );
-
+    
     // Scale the drawing (scaling happens relative to center of drawing, not top left {0,0})
     paper.view.scaling = scaleFactor;
-
+    
     // Create a new BSP tree
     const bspTree = new BSPTree(drawingWidth, drawingHeight);
-
+    
     // Initialize interaction handlers
     const interactionHandler = new InteractionHandler(bspTree);
-
+    
     // Initialize renderer
     const renderer = new BSPRenderer();
-
+    
     // Initialize STL Generator
     const stlGenerator = new STLGenerator(drawingDepth);
-
+    
     // Initialize SVG Generator
     const svgGenerator = new SVGGenerator(drawingDepth, new BSPAnalyzer(bspTree));
     console.log(svgGenerator);
-
+    
     let debug = true;
     // let debug = false;
     if (debug) { // Do an initial slice-up

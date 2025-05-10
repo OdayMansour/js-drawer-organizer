@@ -7,9 +7,9 @@ export class BSPRenderer {
         this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 2 });
         this.topDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
         this.bottomDistanceLine = new Path({ strokeColor: 'grey', strokeWidth: 1 });
-        this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
-        this.topDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
-        this.bottomDistanceText = new PointText({ fillColor: 'grey', fontSize: 10, fontWeight: 'normal' });
+        this.guideText = new PointText({ fillColor: 'black' });
+        this.topDistanceText = new PointText({ fillColor: 'grey' });
+        this.bottomDistanceText = new PointText({ fillColor: 'grey' });
         this.showRawLengths = true;
     }
 
@@ -60,27 +60,28 @@ export class BSPRenderer {
         
         const wallLabel = new PointText({ 
             fillColor: Utils.generateDivColorFromId(displayLength), 
-            fontSize: 10, 
+            
             fontWeight: this.showRawLengths ? 'normal' : 'italic'
         });
         
         let midPoint, position;
 
-        if (wall.type === 'vertical') {
-            position = wall.startingPoint.x;
-            midPoint = new Point(position - 9, wall.startingPoint.y + displayLength/2.0);
+        let labelContent = `${displayLength} mm`
+        // labelContent = 'dddsmm'
 
-            wallLabel.content = `${displayLength} mm`;
-            
+        if (wall.type === 'vertical') {
+            position = wall.startingPoint.x - labelContent.length * 2;
+            midPoint = new Point(position + 6, wall.startingPoint.y + displayLength/2.0 + 2);
+
+            wallLabel.content = labelContent;
             wallLabel.point = midPoint;
             wallLabel.rotation = 90;
     
         } else { // horizontal
             position = wall.startingPoint.y;
-            midPoint = new Point(wall.startingPoint.x + displayLength/2.0 - 9, position - 3);
+            midPoint = new Point(wall.startingPoint.x + displayLength/2.0 - labelContent.length * 2, position - 4);
 
-            wallLabel.content = `${displayLength} mm`;
-            
+            wallLabel.content = labelContent;
             wallLabel.point = midPoint;
             wallLabel.rotation = 0;
         }
@@ -125,9 +126,9 @@ export class BSPRenderer {
         this.guideLine = new Path({ strokeColor: 'black', strokeWidth: 3 });
         this.topDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
         this.bottomDistanceLine = new Path({ strokeColor: distanceLineColor, strokeWidth: distanceLineWidth, dashArray: distanceLineDashArray });
-        this.guideText = new PointText({ fillColor: 'black', fontSize: 12, fontWeight: 'bold' });
-        this.topDistanceText = new PointText({ fillColor: distanceLineColor, fontSize: 10, fontWeight: 'normal' });
-        this.bottomDistanceText = new PointText({ fillColor: distanceLineColor, fontSize: 10, fontWeight: 'normal' });
+        this.guideText = new PointText({ fillColor: 'black' });
+        this.topDistanceText = new PointText({ fillColor: distanceLineColor });
+        this.bottomDistanceText = new PointText({ fillColor: distanceLineColor });
 
         try {
             if (!node || !node.isLeaf()) {
@@ -138,6 +139,7 @@ export class BSPRenderer {
             let midPoint;
 
             if (orientation === "vertical") {
+                let labelContent = `height: ${node.rectangle.height} mm`;
                 // Create a vertical line
                 const startPoint = new Point(position.x, node.rectangle.y);
                 const endPoint = new Point(position.x, node.rectangle.y + node.rectangle.height);
@@ -146,35 +148,38 @@ export class BSPRenderer {
 
                 // Calculate middle point for text
                 midPoint = new Point(
-                    position.x - 30, // Offset text to the right of the line
+                    position.x - labelContent.length * 2 + 6, // Offset text to the right of the line
                     node.rectangle.y + (node.rectangle.height / 2)
                 );
                 // Update text content and position
-                this.guideText.content = `height: ${node.rectangle.height} mm`;
+                this.guideText.content = labelContent;
                 this.guideText.point = midPoint;
                 this.guideText.rotation = 90; // Vertical text
 
                 // Add horizontal distance lines
                 // Top distance line (from cursor to top edge)
+                let topDistanceLabelContent = `${leftDist} mm`;
                 this.topDistanceLine.add(new Point(node.rectangle.x, position.y));
                 this.topDistanceLine.add(new Point(position.x, position.y));
-                this.topDistanceText.content = `${leftDist} mm`;
+                this.topDistanceText.content = topDistanceLabelContent;
                 this.topDistanceText.point = new Point(
-                    node.rectangle.x + (leftDist / 2),
-                    position.y - 5 // Text above the line
+                    node.rectangle.x + (leftDist / 2) - topDistanceLabelContent.length * 2,
+                    position.y - 4 // Text above the line
                 );
                 this.topDistanceText.rotation = 0;
 
                 // Bottom distance line (from cursor to bottom edge)
+                let bottomDistanceLabelContent = `${rightDist} mm`;
                 this.bottomDistanceLine.add(new Point(position.x, position.y));
                 this.bottomDistanceLine.add(new Point(node.rectangle.x + node.rectangle.width, position.y));
-                this.bottomDistanceText.content = `${rightDist} mm`;
+                this.bottomDistanceText.content = bottomDistanceLabelContent;
                 this.bottomDistanceText.point = new Point(
-                    position.x + (rightDist / 2),
-                    position.y - 5 // Text below the line
+                    position.x + (rightDist / 2) - bottomDistanceLabelContent.length * 2,
+                    position.y - 4 // Text below the line
                 );
                 this.bottomDistanceText.rotation = 0;
             } else {
+                let labelContent = `width: ${node.rectangle.width} mm`;
                 // Create a horizontal line
                 const startPoint = new Point(node.rectangle.x, position.y);
                 const endPoint = new Point(node.rectangle.x + node.rectangle.width, position.y);
@@ -183,12 +188,12 @@ export class BSPRenderer {
 
                 // Calculate middle point for text
                 midPoint = new Point(
-                    node.rectangle.x + (node.rectangle.width / 2),
-                    position.y - 5 // Offset text above the line
+                    node.rectangle.x + (node.rectangle.width / 2) - labelContent.length * 2,
+                    position.y - 4 // Offset text above the line
                 );
 
                 // Update text content and position
-                this.guideText.content = `width: ${node.rectangle.width} mm`;
+                this.guideText.content = labelContent;
                 this.guideText.point = midPoint;
                 this.guideText.rotation = 0; // Horizontal text
 
