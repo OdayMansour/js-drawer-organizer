@@ -78,16 +78,4 @@ window.onload = async function() {
     }
     // Render the initial tree
     renderer.renderBSPTree(bspTree, interactionHandler.showRawLengths);
-
-    // Setup UI event listeners
-    document.getElementById('change-orientation').addEventListener('click', function() {
-        interactionHandler.toggleOrientation();
-    });
-
-    document.getElementById('reset').addEventListener('click', function() {
-        bspTree.root = new BSPNode(new Rectangle(0, 0, drawingWidth, drawingHeight, 1));
-        bspTree.nextId = 2;
-        interactionHandler.selectedNode = null;
-        renderer.renderBSPTree(bspTree);
-    });
 };
