@@ -8,17 +8,17 @@ export class STLGenerator {
 
         this.configurations = [
             {
-                templateUrl: '/resources/stl/L.stl.template',
+                templateUrl: './resources/stl/L.stl.template',
                 depthToken: '__DEPTH__',
                 depthValue: derivedDepthString
             },
             {
-                templateUrl: '/resources/stl/T.stl.template',
+                templateUrl: './resources/stl/T.stl.template',
                 depthToken: '__DEPTH__',
                 depthValue: derivedDepthString
             },
             {
-                templateUrl: '/resources/stl/X.stl.template',
+                templateUrl: './resources/stl/X.stl.template',
                 depthToken: '__DEPTH__',
                 depthValue: derivedDepthString
             }
