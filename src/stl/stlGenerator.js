@@ -3,7 +3,7 @@ export class STLGenerator {
         this.depth = depth;
 
         // Connector is 50% of depth or 10mm, whichever is bigger
-        const derivedDepth = Math.max(this.depth * 0.6, 10);
+        const derivedDepth = this.depth;
         const derivedDepthString = this.toScientificNotation(derivedDepth)
 
         this.configurations = [
