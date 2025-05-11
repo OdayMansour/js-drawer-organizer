@@ -64,8 +64,8 @@ window.onload = async function() {
     const svgGenerator = new SVGGenerator(drawingDepth, new BSPAnalyzer(bspTree));
     console.log(svgGenerator);
     
-    let debug = true;
-    // let debug = false;
+    // let debug = true;
+    let debug = false;
     if (debug) { // Do an initial slice-up
         let node = bspTree.findNodeByPosition(165, 340);
         bspTree.splitCompartmentOffset(node, 'horizontal', 340);
