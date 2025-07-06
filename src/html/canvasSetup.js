@@ -20,8 +20,17 @@ export class CanvasSetup {
             container.style.zIndex = '1000';
 
             container.innerHTML = `
+                <h2>Drawer Divider</h2>
+                This page lets you design your own drawer dividors with laser-cut panels and 3D-printed connectors!<br />
+                Right-click to flip the direction of the cut, Left-click to cut.<br /><br />
+                When you are done, you will be able to download:<br />
+                1. 3D-printer files for the connectors (STL)<br />
+                2. Blueprints for laser-cutting (or hand-cutting) (SVG)<br />
+                <br />
+                This page works with <b>3mm-thick</b> panels, laser- or hand-cut<br />
+
                 <h2>Dividers Dimensions</h2>
-                The dividers will be 2mm larger on each side<br />This is due to the 3D-printed connnectors<br />sticking out on the sides.
+                <b>The dividers will be 2mm larger on each side</b><br />This is due to the 3D-printed connnectors<br />sticking out on the sides.<br />Make sure to compensate by reducing cavas size<br />by 5mm in each direction.
                 <div style="margin-top: 10px;">
                     <label for="canvas-width">Width (mm): </label>
                     <input type="number" id="canvas-width" value="${this.defaultWidth}" min="200" max="1200">
